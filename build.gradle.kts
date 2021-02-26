@@ -82,6 +82,7 @@ configurations.all {
 tasks.test {
   // Use junit platform for unit tests.
   useJUnitPlatform()
+  // systemProperty("java.util.logging.manager","org.apache.logging.log4j.jul.LogManager")
 
   testLogging {
     lifecycle {

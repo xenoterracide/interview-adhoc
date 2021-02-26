@@ -14,11 +14,11 @@ import java.time.Instant;
 import java.util.EnumSet;
 import java.util.Locale;
 
-class RecordAssembler implements InputStreamReaderFunction<InputStream, TxnLogDto> {
+class RecordAssembler implements InputStreamReaderFunction<InputStream, TxnLog> {
 
   @SuppressWarnings("MagicNumber")
-  @Override public TxnLogDto read( InputStream is ) throws IOException {
-    var builder = new TxnLogDtoBuilder();
+  @Override public TxnLog read( InputStream is ) throws IOException {
+    var builder = new TxnLogBuilder();
 
     var typeEnumByte = is.readNBytes( 1 );
     ThreadContext.put( "enum", "0x" + Hex.encodeHexString( typeEnumByte ) );

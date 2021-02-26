@@ -9,7 +9,7 @@ import java.time.Instant;
 
 @Value.Immutable
 @Value.Style(visibility = Value.Style.ImplementationVisibility.PRIVATE)
-interface TxnLogDto {
+interface TxnLog {
 
   TxnType type();
 

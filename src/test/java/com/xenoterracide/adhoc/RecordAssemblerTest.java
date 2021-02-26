@@ -39,10 +39,10 @@ class RecordAssemblerTest {
       LogManager.getLogger().debug( "{}", dto );
       assertThat( dto )
         .extracting(
-          TxnLogDto::type,
-          TxnLogDto::timestamp,
-          TxnLogDto::userId,
-          TxnLogDto::amount
+          TxnLog::type,
+          TxnLog::timestamp,
+          TxnLog::userId,
+          TxnLog::amount
         )
         .containsExactly(
           TxnType.DEBIT,
