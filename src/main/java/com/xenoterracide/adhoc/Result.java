@@ -1,3 +1,4 @@
+/* Copyright © 2021 Caleb Cushing. All rights reserved */
 package com.xenoterracide.adhoc;
 
 import org.immutables.value.Value;
@@ -14,5 +15,7 @@ interface Result {
 
   long autopaysEndedCount();
 
-  Money specificUserBalance(); // misdesigned method, but it's based on requirements
+  // misdesigned method, but it's based on requirements,
+  // would be better maybe to allow fetching a specific user by id
+  Money specificUserBalance();
 }
