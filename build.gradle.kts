@@ -31,27 +31,49 @@ dependencyLocking {
 val sbv = "2.4.+"
 dependencies {
   compileOnly(platform("org.springframework.boot:spring-boot-starter-parent:$sbv"))
-  compileOnly("org.apache.logging.log4j:log4j-api")
   implementation(platform("org.springframework.boot:spring-boot-starter-parent:$sbv"))
-  // Use JUnit Jupiter API for testing.
+
+  errorprone("com.google.errorprone:error_prone_core:2.5.+")
+  errorprone("com.uber.nullaway:nullaway:0.8.+")
+  compileOnly("com.google.errorprone:error_prone_annotations:2.+")
+
+  annotationProcessor("org.immutables:value")
+  compileOnlyApi("org.immutables:value-annotations")
+
+  implementation("info.picocli:picocli:4.+")
+  implementation("org.javamoney:moneta:1.+")
+  implementation("commons-codec:commons-codec")
+  implementation("io.vavr:vavr:0.+")
+
   testImplementation("org.springframework:spring-test")
   testImplementation("org.springframework.boot:spring-boot-test")
   testImplementation("org.springframework.boot:spring-boot-test-autoconfigure")
+
   testImplementation("org.junit.jupiter:junit-jupiter-api")
   testImplementation("org.junit.jupiter:junit-jupiter-params")
+  testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine")
+
   testImplementation("org.assertj:assertj-core")
   testImplementation("org.mockito:mockito-core")
-  // Use JUnit Jupiter Engine for testing.
-  testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine")
-  errorprone("com.google.errorprone:error_prone_core:2.5.+")
-  errorprone("com.uber.nullaway:nullaway:0.8.+")
+
+  implementation("org.apache.logging.log4j:log4j-api")
+  implementation("org.apache.logging.log4j:log4j-core")
+  testRuntimeOnly("org.apache.logging.log4j:log4j-jul")
 }
 
 configurations.all {
-  resolutionStrategy.dependencySubstitution.all {
-    requested.let {
-      if (it is ModuleComponentSelector && it.module == "spring-boot-starter-logging") {
-        useTarget("org.springframework.boot:spring-boot-starter-log4j2:${it.version}", "Use Log4j2 instead of Logback")
+  resolutionStrategy {
+    dependencySubstitution.all {
+      requested.let {
+        if (it is ModuleComponentSelector) {
+          if (it.module == "spring-boot-starter-logging") {
+            useTarget(
+              "org.springframework.boot:spring-boot-starter-log4j2:${it.version}",
+              "Use Log4j2 instead of Logback"
+            )
+          }
+          if (it.group == "org.immutables") useTarget("${it.moduleIdentifier}:2.+" )
+        }
       }
     }
   }
@@ -65,7 +87,12 @@ tasks.test {
     lifecycle {
       showStandardStreams = true
       displayGranularity = 2
-      events.addAll(listOf(org.gradle.api.tasks.testing.logging.TestLogEvent.STARTED, org.gradle.api.tasks.testing.logging.TestLogEvent.PASSED, org.gradle.api.tasks.testing.logging.TestLogEvent.SKIPPED, org.gradle.api.tasks.testing.logging.TestLogEvent.FAILED))
+      events.addAll(listOf(
+        TestLogEvent.STARTED,
+        TestLogEvent.PASSED,
+        TestLogEvent.SKIPPED,
+        TestLogEvent.FAILED
+      ))
     }
   }
   reports {
@@ -124,6 +151,7 @@ spotless {
 
 
 java {
+
   toolchain {
     languageVersion.set(JavaLanguageVersion.of(11))
   }
@@ -144,6 +172,12 @@ checkerFramework {
 }
 
 tasks.withType<JavaCompile>().configureEach {
+  options.compilerArgs.addAll(listOf(
+    "-parameters",
+    "-Werror",
+    "-Xlint:deprecation",
+    "-Xlint:unchecked"
+  ) )
   options.errorprone {
     nullaway {
       severity.set(CheckSeverity.ERROR)
@@ -151,6 +185,8 @@ tasks.withType<JavaCompile>().configureEach {
       handleTestAssertionLibraries.set(true)
     }
     disableWarningsInGeneratedCode.set(true)
+    excludedPaths.set("$buildDir/generated/sources/.*")
+
     error(
       "AmbiguousMethodReference",
       "ArgumentSelectionDefectChecker",
