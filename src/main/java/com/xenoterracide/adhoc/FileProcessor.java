@@ -17,6 +17,7 @@ import java.nio.file.Path;
 import java.util.Locale;
 
 public class FileProcessor {
+  private static final long USER_ID = 2456938384156277127L;
 
   private final Logger log = LogManager.getLogger( this.getClass() );
 
@@ -31,7 +32,7 @@ public class FileProcessor {
       hp.consume( is, fPath );
       var zeroDollars = Money.of( 0, Monetary.getCurrency( Locale.US ) );
 
-      var reducer = new ResultViewModel();
+      var vm = new ResultViewModel( USER_ID );
 
       @Var var currentResult = new ResultBuilder()
         .autopaysEndedCount( 0 )
@@ -46,7 +47,7 @@ public class FileProcessor {
         ThreadContext.put( "record", String.valueOf( recordNum ) );
         var record = rp.read( is );
         log.debug( "{}", record );
-        currentResult = reducer.apply( currentResult, record );
+        currentResult = vm.apply( currentResult, record );
         recordNum += 1;
       }
       return currentResult;

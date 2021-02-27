@@ -10,7 +10,7 @@ group = "com.xenoterracide"
 version = "1.0-SNAPSHOT"
 
 plugins {
-  `java-library`
+  application
   checkstyle
   id("net.ltgt.errorprone").version("1.3.0")
   id("net.ltgt.nullaway").version("1.0.2")
@@ -38,7 +38,8 @@ dependencies {
   compileOnly("com.google.errorprone:error_prone_annotations:2.+")
 
   annotationProcessor("org.immutables:value")
-  compileOnlyApi("org.immutables:value-annotations")
+  compileOnly("org.immutables:value-annotations")
+  testCompileOnly("org.immutables:value-annotations")
 
   implementation("info.picocli:picocli:4.+")
   implementation("org.javamoney:moneta:1.+")
@@ -72,11 +73,15 @@ configurations.all {
               "Use Log4j2 instead of Logback"
             )
           }
-          if (it.group == "org.immutables") useTarget("${it.moduleIdentifier}:2.+" )
+          if (it.group == "org.immutables") useTarget("${it.moduleIdentifier}:2.+")
         }
       }
     }
   }
+}
+
+application {
+  mainClass.set("com.xenoterracide.adhoc.Application")
 }
 
 tasks.test {

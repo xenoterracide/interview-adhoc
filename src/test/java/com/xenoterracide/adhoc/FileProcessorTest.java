@@ -68,14 +68,14 @@ class FileProcessorTest {
       .extracting(
         res -> res.totalCredit().with( MonetaryOperators.rounding( 2 ) ),
         res -> res.totalDebit().with( MonetaryOperators.rounding( 2 ) ),
-        Result::specificUserBalance,
+        res -> res.specificUserBalance().with( MonetaryOperators.rounding( 2 ) ),
         Result::autopaysStartedCount,
         Result::autopaysEndedCount
       )
       .containsExactly(
         Money.of( 10073.36, USD ),
         Money.of( 18203.70, USD ),
-        Money.of( 0, USD ),
+        Money.of( 497.17, USD ),
         11L,
         8L
       );
@@ -87,7 +87,7 @@ class FileProcessorTest {
         "total debit amount=18,203.70%n" +
         "autopays started=11%n" +
         "autopays ended=8%n" +
-        "balance for user 2456938384156277127=0.00%n" )
+        "balance for user 2456938384156277127=497.17%n" )
     );
   }
 

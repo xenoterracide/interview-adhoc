@@ -11,7 +11,6 @@ import java.util.function.Function;
 
 class TxnLogReportView implements Function<Result, String> {
 
-
   @Override public String apply( Result result ) {
     var afq = AmountFormatQueryBuilder.of( Locale.US )
       .set( AmountFormatParams.PATTERN, "#,##0.00" )
