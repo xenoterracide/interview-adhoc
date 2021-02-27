@@ -1,10 +1,10 @@
 import com.github.spotbugs.snom.Confidence
 import com.github.spotbugs.snom.Effort
 import com.github.spotbugs.snom.SpotBugsTask
-import org.gradle.api.tasks.testing.logging.TestLogEvent
 import net.ltgt.gradle.errorprone.CheckSeverity
 import net.ltgt.gradle.errorprone.errorprone
 import net.ltgt.gradle.nullaway.nullaway
+import org.gradle.api.tasks.testing.logging.TestLogEvent
 
 group = "com.xenoterracide"
 version = "1.0-SNAPSHOT"
@@ -43,7 +43,7 @@ dependencies {
   implementation("info.picocli:picocli:4.+")
   implementation("org.javamoney:moneta:1.+")
   implementation("commons-codec:commons-codec")
-  implementation("io.vavr:vavr:0.+")
+  // implementation("io.vavr:vavr:0.+")
 
   testImplementation("org.springframework:spring-test")
   testImplementation("org.springframework.boot:spring-boot-test")
@@ -86,6 +86,7 @@ tasks.test {
 
   testLogging {
     lifecycle {
+      showStackTraces = true
       showStandardStreams = true
       displayGranularity = 2
       events.addAll(listOf(

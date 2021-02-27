@@ -4,12 +4,14 @@ package com.xenoterracide.adhoc;
 import org.immutables.value.Value;
 import org.javamoney.moneta.Money;
 
+import javax.money.MonetaryAmount;
+
 @Value.Immutable
 @Value.Style(visibility = Value.Style.ImplementationVisibility.PRIVATE)
 interface Result {
-  Money totalCredit();
+  MonetaryAmount totalCredit();
 
-  Money totalDebit();
+  MonetaryAmount totalDebit();
 
   long autopaysStartedCount();
 

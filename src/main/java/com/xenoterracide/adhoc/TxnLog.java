@@ -2,7 +2,8 @@
 package com.xenoterracide.adhoc;
 
 import org.immutables.value.Value;
-import org.javamoney.moneta.Money;
+
+import javax.money.MonetaryAmount;
 
 import java.time.Instant;
 import java.util.Optional;
@@ -17,5 +18,5 @@ interface TxnLog {
 
   long userId();
 
-  Optional<Money> amount();
+  Optional<MonetaryAmount> amount();
 }

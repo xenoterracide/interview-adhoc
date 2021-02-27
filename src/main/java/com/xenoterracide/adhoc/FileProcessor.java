@@ -11,18 +11,20 @@ import javax.money.Monetary;
 
 import java.io.BufferedInputStream;
 import java.io.IOException;
+import java.io.UncheckedIOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.Locale;
-import java.util.function.Consumer;
 
-public class FileProcessor implements Consumer<Path> {
+public class FileProcessor {
 
   private final Logger log = LogManager.getLogger( this.getClass() );
+
   private final HeaderValidator hp = new HeaderValidator();
+
   private final RecordAssembler rp = new RecordAssembler();
 
-  @Override public void accept( Path fPath ) {
+  public Result process( Path fPath ) {
     try (
       var is = new BufferedInputStream( Files.newInputStream( fPath ) )
     ) {
@@ -47,9 +49,11 @@ public class FileProcessor implements Consumer<Path> {
         currentResult = reducer.apply( currentResult, record );
         recordNum += 1;
       }
+      return currentResult;
     }
     catch ( IOException e ) {
       log.error( "", e );
+      throw new UncheckedIOException( e );
     }
   }
 }

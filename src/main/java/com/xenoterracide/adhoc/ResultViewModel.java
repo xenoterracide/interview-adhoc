@@ -6,7 +6,7 @@ import java.util.function.BiFunction;
 public class ResultViewModel implements BiFunction<Result, TxnLog, Result> {
 
   @Override public Result apply( Result result, TxnLog txnLog ) {
-    var builder = new ResultBuilder();
+    var builder = new ResultBuilder().from( result );
     switch ( txnLog.type() ) {
       case DEBIT: {
         txnLog.amount()
