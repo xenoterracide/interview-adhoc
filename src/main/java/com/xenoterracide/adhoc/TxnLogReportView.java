@@ -22,7 +22,7 @@ class TxnLogReportView implements Function<Result, String> {
         "total debit amount=%s%n" +
         "autopays started=%d%n" +
         "autopays ended=%d%n" +
-        "balance for user 2456938384156277127=%s%n",
+        "balance for user 2456938384156277127=%s",
       mfmt.format( result.totalCredit() ),
       mfmt.format( result.totalDebit() ),
       result.autopaysStartedCount(),

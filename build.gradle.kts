@@ -24,6 +24,14 @@ repositories {
   mavenCentral()
 }
 
+application {
+  mainClass.set("com.xenoterracide.adhoc.Application")
+}
+
+tasks.withType<JavaExec> {
+  systemProperty("java.util.logging.manager", "org.apache.logging.log4j.jul.LogManager")
+}
+
 dependencyLocking {
   lockAllConfigurations()
 }
@@ -59,6 +67,7 @@ dependencies {
 
   implementation("org.apache.logging.log4j:log4j-api")
   implementation("org.apache.logging.log4j:log4j-core")
+  runtimeOnly("org.apache.logging.log4j:log4j-jul")
   testRuntimeOnly("org.apache.logging.log4j:log4j-jul")
 }
 
@@ -78,10 +87,6 @@ configurations.all {
       }
     }
   }
-}
-
-application {
-  mainClass.set("com.xenoterracide.adhoc.Application")
 }
 
 tasks.test {

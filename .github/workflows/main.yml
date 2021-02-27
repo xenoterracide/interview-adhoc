@@ -20,3 +20,4 @@ jobs:
             ${{ runner.os }}-gradle-
       - run: ./gradlew --version
       - run: ./gradlew build
+      - run: ./gradlew run --quiet --args="--log-level debug src/test/resources/txnlog.dat"
