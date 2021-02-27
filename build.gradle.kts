@@ -170,7 +170,7 @@ nullaway {
 
 checkerFramework {
   excludeTests = true
-  extraJavacArgs.addAll(listOf("-Astubs=$buildDir/../config/stubs"))
+  // extraJavacArgs.addAll(listOf("-Astubs=$buildDir/../config/stubs"))
   checkers.addAll(
     listOf(
       "org.checkerframework.checker.nullness.NullnessChecker"
