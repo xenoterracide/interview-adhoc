@@ -4,6 +4,7 @@ import com.github.spotbugs.snom.SpotBugsTask
 import net.ltgt.gradle.errorprone.CheckSeverity
 import net.ltgt.gradle.errorprone.errorprone
 import net.ltgt.gradle.nullaway.nullaway
+import org.gradle.api.tasks.testing.logging.TestExceptionFormat
 import org.gradle.api.tasks.testing.logging.TestLogEvent
 
 group = "com.xenoterracide"
@@ -96,8 +97,10 @@ tasks.test {
 
   testLogging {
     lifecycle {
+      showExceptions = true
       showStackTraces = true
       showStandardStreams = true
+      exceptionFormat = TestExceptionFormat.FULL
       displayGranularity = 2
       events.addAll(listOf(
         TestLogEvent.STARTED,
@@ -109,7 +112,7 @@ tasks.test {
   }
   reports {
     html.isEnabled = false
-    junitXml.isEnabled = true
+    junitXml.isEnabled = false
   }
 }
 

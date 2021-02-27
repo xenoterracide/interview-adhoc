@@ -87,7 +87,7 @@ class FileProcessorTest {
         "total debit amount=18,203.70%n" +
         "autopays started=11%n" +
         "autopays ended=8%n" +
-        "balance for user 2456938384156277127=497.17%n" )
+        "balance for user 2456938384156277127=497.17" )
     );
   }
 
