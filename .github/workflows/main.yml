@@ -1,0 +1,22 @@
+name: Main
+on:
+  schedule:
+    - cron: "0 6 * * *"
+  push:
+  create:
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/cache@v2
+        with:
+          path: |
+            ~/.gradle/caches
+            ~/.gradle/wrapper
+          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*') }}
+          restore-keys: |
+            ${{ runner.os }}-gradle-
+      - run: ./gradlew --version
+      - run: ./gradlew build
